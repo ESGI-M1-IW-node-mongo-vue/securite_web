@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://prisma:prisma@localhost:5432/prisma"
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  name     String
+  password String
+  email    String  @unique
+  tweets   Tweet[]
+}
+
+model Tweet {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+}

@@ -3,7 +3,6 @@
 import tailwindForms from '@tailwindcss/forms';
 import tailwindColors from 'tailwindcss/colors';
 
-console.log('👋',tailwindColors)
 export default {
   content: [
     "./components/**/*.{js,vue,ts}",
