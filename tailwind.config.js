@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 
 import tailwindForms from '@tailwindcss/forms';
+import tailwindColors from 'tailwindcss/colors';
+
+console.log('👋',tailwindColors)
 export default {
   content: [
     "./components/**/*.{js,vue,ts}",
@@ -11,7 +14,12 @@ export default {
     "./error.vue",
   ],
   theme: {
-    extend: {},
+    colors: {
+    ...tailwindColors,
+      blue: {
+        600: "#189CF1"
+      }
+    }
   },
   plugins: [
       tailwindForms
