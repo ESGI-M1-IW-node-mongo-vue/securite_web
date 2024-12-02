@@ -2,20 +2,33 @@
   <div class="max-w-screen-lg mx-auto">
       <ProfileHeader />
       <ProfileBio />
-      <ProfileStats />
       <ProfileTabs />
-      <div class="divide-y divide-gray-200">
-        <ProfilePost>
-          Just deployed a new feature using @nuxt/ui! The developer experience is amazing. 🚀 #webdev #nuxtjs
-        </ProfilePost>
-        <ProfilePost>
-          Working on some exciting new projects. Can't wait to share more details soon! 👨‍💻 #coding #development
-        </ProfilePost>
-        <ProfilePost>
-          Learning something new every day. Today's focus: Advanced TypeScript patterns and best practices. 📚 #typescript #learning
-        </ProfilePost>
-      </div>
+        <div class="divide-y divide-gray-200">
+          <HomeTweet v-for="tweet in tweets" :key="tweet.id" v-bind="tweet" />
+        </div>
   </div>
 </template>
+
 <script setup lang="ts">
+const tweets = [
+  {
+    id: 1,
+    author: 'Sarah Johnson',
+    handle: '@sarahj',
+    content: 'Just launched my new portfolio website! Check it out at example.com 🚀 #webdev #portfolio',
+    avatar: 'https://placehold.co/400',
+    time: new Date()
+  },
+  {
+    id: 2,
+    author: 'Tech News',
+    handle: '@technews',
+    content: 'Breaking: Major updates coming to Vue 3 ecosystem! New features include improved performance and developer experience. #vuejs #webdev',
+    avatar: 'https://placehold.co/400',
+    likes: 231,
+    retweets: 89,
+    replies: 24,
+    time: new Date()
+  }
+]
 </script>

@@ -1,24 +1,9 @@
 <template>
   <div class="border-x border-gray-200 min-h-screen">
     <div class="sticky top-0 z-10 bg-white/80 backdrop-blur-sm border-b border-gray-200">
-      <div class="px-4 py-3">
-        <h1 class="text-xl font-bold">Home</h1>
-      </div>
-      <div class="flex border-b border-gray-200">
-        <button
-            v-for="tab in ['For you', 'Following']"
-            :key="tab"
-            :class="[
-            'flex-1 py-4 text-sm font-medium relative',
-            tab === 'For you' ? 'text-black' : 'text-gray-500 hover:bg-gray-50'
-          ]"
-        >
-          {{ tab }}
-          <div
-              v-if="tab === 'For you'"
-              class="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 rounded-full"
-          ></div>
-        </button>
+      <div class="flex justify-between items-center px-4 py-3">
+          <h1 class="text-xl font-bold">Home</h1>
+          <h2 class="text-blue-600 font-bold"><NuxtLink to="/profile">My Profile</NuxtLink></h2>
       </div>
     </div>
     <HomeTweetComposer />
@@ -36,9 +21,6 @@ const tweets = [
     handle: '@sarahj',
     content: 'Just launched my new portfolio website! Check it out at example.com 🚀 #webdev #portfolio',
     avatar: 'https://placehold.co/400',
-    likes: 42,
-    retweets: 12,
-    replies: 5,
     time: new Date()
   },
   {
