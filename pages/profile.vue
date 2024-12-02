@@ -1,5 +1,11 @@
 <template>
   <div class="max-w-screen-lg mx-auto">
+    <div class="sticky top-0 z-10 bg-white/80 backdrop-blur-sm border-b border-gray-200">
+      <div class="flex justify-between items-center px-4 py-3">
+        <h1 class="text-xl font-bold"><NuxtLink to="/">Home</NuxtLink></h1>
+        <h2 class="text-blue-600 font-bold"><NuxtLink to="/profile">My Profile</NuxtLink></h2>
+      </div>
+    </div>
       <ProfileHeader />
       <ProfileBio />
       <ProfileTabs />
