@@ -53,13 +53,23 @@ const updateFeed = async () => {
 
   const usersAndTweets = await res.json();
 
+  tweets.value = [];
+
+  const newTweets = [];
+
   usersAndTweets.forEach((user) => {
     user.tweets.forEach((tweet) => {
-      tweets.value.push({
+
+      newTweets.push({
         content: tweet.content,
+        createdAt: new Date(tweet.createdAt),
         author: user.name,
       })
     })
+  });
+
+  tweets.value = newTweets.toSorted((a, b) => {
+    return b.createdAt - a.createdAt;
   });
 }
 
@@ -101,10 +111,8 @@ const postTweet = async () => {
     return
   }
 
-  tweets.value.unshift({
-    content: tweetContent.value,
-  })
   tweetContent.value = ''
 
+  await updateFeed();
 }
 </script>
