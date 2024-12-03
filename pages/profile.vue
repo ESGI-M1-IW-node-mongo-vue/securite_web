@@ -2,20 +2,39 @@
   <div class="max-w-screen-lg mx-auto">
     <div class="sticky top-0 z-10 bg-white/80 backdrop-blur-sm border-b border-gray-200">
       <div class="flex justify-between items-center px-4 py-3">
-        <h1 class="text-xl font-bold"><NuxtLink to="/">Home</NuxtLink></h1>
-        <h2 class="text-blue-600 font-bold"><NuxtLink to="/profile">My Profile</NuxtLink></h2>
+        <h1 class="text-xl font-bold">
+          <NuxtLink to="/">Home</NuxtLink>
+        </h1>
+        <h2 class="text-blue-600 font-bold">
+          <NuxtLink to="/profile">My Profile</NuxtLink>
+        </h2>
       </div>
     </div>
-      <ProfileHeader />
-      <ProfileBio />
-      <ProfileTabs />
-        <div class="divide-y divide-gray-200">
-          <HomeTweet v-for="tweet in tweets" :key="tweet.id" v-bind="tweet" />
-        </div>
+    <ProfileHeader/>
+    <ProfileBio/>
+    <ProfileTabs/>
+    <div class="divide-y divide-gray-200">
+      <HomeTweet v-for="tweet in tweets" :key="tweet.id" v-bind="tweet"/>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+
+import type {User} from "@prisma/client";
+
+if (import.meta.client) {
+  const accessToken = localStorage.getItem("token");
+
+  const res = await fetch('/api/user', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({token: accessToken}),
+  });
+
+  const user: User = await res.json();
+}
+
 const tweets = [
   {
     id: 1,
