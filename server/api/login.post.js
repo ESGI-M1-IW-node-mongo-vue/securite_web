@@ -14,6 +14,10 @@ export default defineEventHandler(async event => {
         }
     });
 
+    if (!user) {
+        throw createError({statusCode: 401, statusMessage: 'Invalid user or password'});
+    }
+
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {

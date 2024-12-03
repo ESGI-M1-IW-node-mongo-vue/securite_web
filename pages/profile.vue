@@ -14,49 +14,36 @@
     <ProfileBio/>
     <ProfileTabs/>
     <div class="divide-y divide-gray-200">
-      <HomeTweet v-for="tweet in tweets" :key="tweet.id" v-bind="tweet"/>
+      <HomeTweet v-for="tweet in tweets" :key="tweet.id" :author="userData.name" :content="tweet.content" :time="tweet.created_at"/>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+const userData = ref(null);
+const tweets = ref([]);
 
-import type {User} from "@prisma/client";
+const fetchMyTweets = async () => {
+  const accessToken = localStorage.getItem("token");
+  const res = await fetch('/api/tweets/me', {
+    headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${accessToken}`},
+  });
+  tweets.value = await res.json();
+}
 
-const userData = ref(null)
+onMounted(fetchMyTweets);
+
 
 if (import.meta.client) {
   const accessToken = localStorage.getItem("token");
 
-  const res = await fetch('/api/user', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({token: accessToken}),
+  const res = await fetch('/api/me', {
+    headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${accessToken}`},
   });
 
-  userData.value = await res.json();
+  const data = await res.json();
 
+  userData.value = data.user;
 }
 
-const tweets = [
-  {
-    id: 1,
-    author: 'Sarah Johnson',
-    handle: '@sarahj',
-    content: 'Just launched my new portfolio website! Check it out at example.com 🚀 #webdev #portfolio',
-    avatar: 'https://placehold.co/400',
-    time: new Date()
-  },
-  {
-    id: 2,
-    author: 'Tech News',
-    handle: '@technews',
-    content: 'Breaking: Major updates coming to Vue 3 ecosystem! New features include improved performance and developer experience. #vuejs #webdev',
-    avatar: 'https://placehold.co/400',
-    likes: 231,
-    retweets: 89,
-    replies: 24,
-    time: new Date()
-  }
-]
 </script>

@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
         });
     }
 
-    return await prisma.user.findMany({
+    return prisma.user.findMany({
         select: {
             id: true,
             name: true,

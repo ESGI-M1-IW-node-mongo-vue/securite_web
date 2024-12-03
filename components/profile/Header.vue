@@ -6,7 +6,7 @@
         <div class="flex">
           <img
             class="h-32 w-32 rounded-full ring-4 ring-white bg-white sm:h-32 sm:w-32"
-            src="https://placehold.co/400"
+            :src="'https://picsum.photos/seed/' + props.data.name + '/250/250'"
             alt="Profile"
           />
         </div>
@@ -27,5 +27,4 @@
 const props = defineProps({
   data:{type:Object,required:true}
 })
-console.log('👋',props)
 </script>
