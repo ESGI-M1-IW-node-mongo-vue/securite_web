@@ -26,10 +26,17 @@ export default defineEventHandler(async (event) => {
             }
         });
     } catch (error) {
+        console.error('Error creating user:', error);
+        if (error.code === 'P2002') {
+            throw createError({
+                statusCode: 400,
+                statusMessage: 'Email already exists',
+            });
+        }
         throw createError({
             statusCode: 500,
             statusMessage: 'Error creating user',
-        })
+        });
     }
 
     setResponseStatus(201);
