@@ -12,5 +12,17 @@ export default defineEventHandler(async (event) => {
         });
     }
 
-    return await prisma.tweet.findMany({});
+    return await prisma.user.findMany({
+        select: {
+            id: true,
+            name: true,
+            tweets: {
+                select: {
+                    id: true,
+                    content: true,
+                    createdAt: true
+                }
+            }
+        },
+    });
 });

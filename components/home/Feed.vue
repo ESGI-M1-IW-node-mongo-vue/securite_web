@@ -11,9 +11,9 @@
     <div class="p-4 border-b border-gray-200">
       <div class="flex space-x-4">
         <img
-            src="https://placehold.co/400"
+            :src="'https://picsum.photos/seed/' + user.name + '/50/50'"
             alt="Your avatar"
-            class="h-12 w-12 rounded-full"
+            class="h-12 w-12 rounded-full aspect-square"
         />
         <div class="flex flex-col w-full">
         <textarea
@@ -35,7 +35,8 @@
 <script setup lang="ts">
 
 const tweetContent = ref('')
-const tweets = ref([])
+const tweets = ref([]) as Ref<{ content: string, author: string }[]>
+const user = ref({})
 
 
 const updateFeed = async () => {
@@ -50,10 +51,35 @@ const updateFeed = async () => {
     return
   }
 
-  tweets.value = await res.json()
+  const usersAndTweets = await res.json();
+
+  usersAndTweets.forEach((user) => {
+    user.tweets.forEach((tweet) => {
+      tweets.value.push({
+        content: tweet.content,
+        author: user.name,
+      })
+    })
+  });
 }
 
+
 onMounted(updateFeed)
+onMounted(async () => {
+  const res = await fetch('http://localhost:3000/api/me', {
+    headers: {
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }
+  })
+
+  if (!res.ok) {
+    console.error('Failed to fetch user')
+    return
+  }
+
+  const data = await res.json()
+  user.value = data.user;
+})
 
 const postTweet = async () => {
   if (!tweetContent.value) return
@@ -75,9 +101,9 @@ const postTweet = async () => {
     return
   }
 
-  const data = await res.json()
-
-  tweets.value.unshift(newTweet)
+  tweets.value.unshift({
+    content: tweetContent.value,
+  })
   tweetContent.value = ''
 
 }
