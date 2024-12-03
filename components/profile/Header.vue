@@ -12,8 +12,8 @@
         </div>
         <div class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
           <div class="mt-6 min-w-0 flex-1 sm:hidden md:block">
-            <h1 class="truncate text-2xl font-bold text-gray-900">John Doe</h1>
-            <p class="text-gray-500">@johndoe</p>
+            <h1 class="truncate text-2xl font-bold text-gray-900">{{props.data.name}}</h1>
+            <p class="text-gray-500">{{props.data.email}}</p>
           </div>
           <div class="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0">
             <UiButton variant="primary">Edit profile</UiButton>
@@ -23,3 +23,8 @@
     </div>
   </div>
 </template>
+<script setup>
+const props = defineProps({
+  data:{type:Object,required:true}
+})
+</script>

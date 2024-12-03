@@ -10,7 +10,7 @@
         </h2>
       </div>
     </div>
-    <ProfileHeader/>
+    <ProfileHeader v-if="userData != null" :data="userData"/>
     <ProfileBio/>
     <ProfileTabs/>
     <div class="divide-y divide-gray-200">
@@ -23,6 +23,8 @@
 
 import type {User} from "@prisma/client";
 
+const userData = ref(null)
+
 if (import.meta.client) {
   const accessToken = localStorage.getItem("token");
 
@@ -32,7 +34,8 @@ if (import.meta.client) {
     body: JSON.stringify({token: accessToken}),
   });
 
-  const user: User = await res.json();
+  userData.value = await res.json();
+
 }
 
 const tweets = [
