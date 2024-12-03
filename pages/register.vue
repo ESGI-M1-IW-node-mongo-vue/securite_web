@@ -124,6 +124,7 @@ const handleSubmit = async () => {
         name: username.value,
       }),
     });
+    await router.push('/login');
 
     if (!res.ok) {
       const message = await res.json();
