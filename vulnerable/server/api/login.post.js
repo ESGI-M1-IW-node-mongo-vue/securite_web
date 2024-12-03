@@ -8,19 +8,11 @@ export default defineEventHandler(async event => {
     const body = await readBody(event);
     const {email, password} = body;
 
-    const user = await prisma.user.findUnique({
-        where: {
-            email
-        }
-    });
+    const encrypted = bcrypt.hash(password, 10);
+
+    const [user] = await prisma.$queryRawUnsafe(`SELECT * FROM "User" WHERE email = '${email}' AND password = '${encrypted}'`);
 
     if (!user) {
-        throw createError({statusCode: 401, statusMessage: 'Invalid user or password'});
-    }
-
-    const passwordMatch = await bcrypt.compare(password, user.password);
-
-    if (!passwordMatch) {
         throw createError({statusCode: 401, statusMessage: 'Invalid user or password'});
     }
 
