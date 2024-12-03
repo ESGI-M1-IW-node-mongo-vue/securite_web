@@ -27,4 +27,5 @@
 const props = defineProps({
   data:{type:Object,required:true}
 })
+console.log('👋',props)
 </script>
