@@ -1,13 +1,12 @@
 import {PrismaClient} from '@prisma/client'
-import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 
-const saltRounds = 10;
 const prisma = new PrismaClient()
 
 const hashPassword = async (plainPassword) => {
     try {
-        const salt = bcrypt.genSaltSync(saltRounds);
-        return bcrypt.hashSync(plainPassword, salt);
+        // Utilisation de MD5 pour le hashage du mot de passe
+        return crypto.createHash('md5').update(plainPassword).digest('hex');
     } catch (error) {
         throw error;
     }
