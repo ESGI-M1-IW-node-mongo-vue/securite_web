@@ -14,9 +14,12 @@
     <ProfileBio/>
     <ProfileTabs/>
     <div class="divide-y divide-gray-200">
-      <HomeTweet v-for="tweet in tweets" :key="tweet.id" :author="userData.name" :content="tweet.content" :time="tweet.created_at"/>
+      <HomeTweet v-for="tweet in tweets" :key="tweet.id" :author="userData.name" :content="tweet.content"
+                 :time="tweet.created_at"/>
     </div>
   </div>
+  <pre>{{ userData }}</pre>
+
 </template>
 
 <script setup lang="ts">
@@ -41,6 +44,7 @@ if (import.meta.client) {
   const data = await res.json();
 
   userData.value = data.user;
+  console.log("User Data:", userData.value);
 }
 
 </script>
