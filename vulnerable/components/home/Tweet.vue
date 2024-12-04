@@ -9,7 +9,7 @@
           <span class="text-gray-500">·</span>
           <span class="text-gray-500">{{ formatDate(time) }}</span>
         </div>
-        <p class="text-gray-900 mt-1">{{ content }}</p>
+        <p class="text-gray-900 mt-1" v-html="content"></p>
       </div>
     </div>
   </article>
