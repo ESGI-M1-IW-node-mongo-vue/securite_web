@@ -18,8 +18,6 @@
                  :time="tweet.created_at"/>
     </div>
   </div>
-  <pre>{{ userData }}</pre>
-
 </template>
 
 <script setup lang="ts">
@@ -44,7 +42,6 @@ if (import.meta.client) {
   const data = await res.json();
 
   userData.value = data.user;
-  console.log("User Data:", userData.value);
 }
 
 </script>
