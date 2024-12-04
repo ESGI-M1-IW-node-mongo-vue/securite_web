@@ -5,9 +5,7 @@ const prisma = new PrismaClient();
 
 
 export default defineEventHandler(async event => {
-    const token = getHeader(event, 'Authorization').replace('Bearer ', '');
-
-    const decoded = jwt.verify(token, 'pouetpouetpouet');
+    const id = getRouterParam(event, 'id')
 
     const user = await prisma.user.findUnique({
         select: {
@@ -16,10 +14,9 @@ export default defineEventHandler(async event => {
             email: true
         },
         where: {
-            id: decoded.userId
+            id: parseInt(id)
         }
     });
-
 
     return {user};
 });

@@ -4,7 +4,7 @@
       <div class="flex justify-between items-center px-4 py-3">
         <h1 class="text-xl font-bold">Home</h1>
         <h2 class="text-blue-600 font-bold">
-          <NuxtLink to="/profile">My Profile</NuxtLink>
+          <NuxtLink :to="`/profile/${user.id}`">My Profile</NuxtLink>
         </h2>
       </div>
     </div>
@@ -33,7 +33,6 @@
 </template>
 
 <script setup lang="ts">
-
 const tweetContent = ref('')
 const tweets = ref([]) as Ref<{ content: string, author: string }[]>
 const user = ref({})
@@ -76,11 +75,7 @@ const updateFeed = async () => {
 
 onMounted(updateFeed)
 onMounted(async () => {
-  const res = await fetch('http://localhost:3000/api/me', {
-    headers: {
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    }
-  })
+  const res = await fetch('http://localhost:3000/api/me/' + getUserIdFromJWT(localStorage.getItem('token')))
 
   if (!res.ok) {
     console.error('Failed to fetch user')
@@ -114,5 +109,28 @@ const postTweet = async () => {
   tweetContent.value = ''
 
   await updateFeed();
+}
+
+function getUserIdFromJWT(jwt) {
+  try {
+    const parts = jwt.split('.');
+
+    if (parts.length !== 3) {
+      throw new Error("Token invalide : il doit contenir trois parties.");
+    }
+
+    const payloadBase64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+    const payloadDecoded = atob(payloadBase64);
+
+    const payload = JSON.parse(payloadDecoded);
+
+    if (!payload.userId) {
+      throw new Error("userId introuvable dans le payload.");
+    }
+
+    return payload.userId;
+  } catch (error) {
+    return null;
+  }
 }
 </script>
